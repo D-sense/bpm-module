@@ -1,0 +1,7 @@
+# Dev local specific config
+vault/config.yml
+
+# Folders
+cmd/api/tracks_folder/
+cmd/api/logrus.log
+cmd/api/bpm-module
