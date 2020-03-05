@@ -12,10 +12,10 @@ import (
 
 func main(){
 
-	log.Println("Starting the Gbedu's BPM-Module Service!")
+	log.Println("Starting Gbedu's BPM-Module Service!")
 
 	initContext := context.Background()
-	tracksTempFolder := "tracks_folder/"
+	tracksTempFolder := "home/ubuntu/tracks_folder/"
 
 	postgresCred, err := vault.GetCredentials()
 	if err != nil {
@@ -38,6 +38,5 @@ func main(){
 	gocron.Every(1).Hour().DoSafely(trackHandler.StartBpmService, initContext, logger, excludeCounters)
 
 	<- gocron.Start()
-
 }
 

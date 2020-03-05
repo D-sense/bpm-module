@@ -16,7 +16,6 @@ type Client struct {
 	db   *gorm.DB
 }
 
-
 // New is a postgress database constructor
 func NewPGX(ctx context.Context, cred *vault.PostgresCredential) *Client {
 	var url = cred.URI
@@ -42,13 +41,11 @@ func (c *Client) Close() error {
 }
 
 func (c *Client) Begin() error {
-	// return c.db.Begin().Error
 	return c.db.Debug().First(&modules.Track{}).Error
 }
 
 func (c *Client) End() error {
 	return c.db.Commit().Error
-	// return c.db.Debug().First(&core.User{}).Error
 }
 
 func (c *Client) SetMaxConn(limit int) {

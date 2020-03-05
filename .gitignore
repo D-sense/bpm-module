@@ -2,6 +2,7 @@
 vault/config.yml
 
 # Folders
+cmd/api/home
 cmd/api/tracks_folder/
 cmd/api/logrus.log
 cmd/api/bpm-module

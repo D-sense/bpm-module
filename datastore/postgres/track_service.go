@@ -15,15 +15,16 @@ func NewTrackService(ctx context.Context, client *Client) *TrackService {
 	return ts
 }
 
+
 func (ts TrackService) Tracks(ctx context.Context, excludeIds []string) ([]*modules.Track, error) {
 	var track []*modules.Track
-	err := ts.client.db.Select("id, counter, original_resource, metadata").Where("bpm is NULL").Not(excludeIds).Find(&track).Error
+	err := ts.client.db.Select("id, counter, original_resource, metadata").Where("bpm is null AND deleted_at is null").Order("counter").Find(&track).Error
 	return track, err
 }
 
 func (ts TrackService) UpdateTrackBPM(ctx context.Context, track *modules.Track) error {
 	track.UpdatedAt = time.Now()
-	return ts.client.db.Save(track).Error
+	return ts.client.db.Save(&track).Error
 }
 
 func (ts TrackService) FindTrackByIdAndCounter(ctx context.Context, track *modules.Track) (*modules.Track, error) {

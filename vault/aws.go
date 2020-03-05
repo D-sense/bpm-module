@@ -10,7 +10,6 @@ import (
 	"log"
 )
 
-
 // Config is global object that holds all application level variables.
 var Config appConfig
 

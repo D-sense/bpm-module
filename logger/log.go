@@ -54,8 +54,9 @@ var (
 	invalidArgMessage      = LogEvent{1, "Invalid arg: %s"}
 	invalidArgValueMessage = LogEvent{2, "Invalid value for argument: %s: %v"}
 	missingArgMessage      = LogEvent{3, "Missing arg: %s"}
-	failed                 = LogEvent{3, "Failed: %s"}
-	passed                 = LogEvent{3, "Passed: %s"}
+	failed                 = LogEvent{4, "Failed: %s"}
+	passed                 = LogEvent{5, "Passed: %s"}
+	info                   = LogEvent{6, "INFO: %s"}
 )
 
 // Standard "InvalidArg error message
@@ -74,6 +75,10 @@ func (l *MainLogger) GetInfo(v ...interface{}) {
 
 func (l *MainLogger) GetError(v ...interface{}) {
 	l.Error(failed.message, v)
+}
+
+func (l *MainLogger) GetNotice(v ...interface{}) {
+	l.Info(info.message, v)
 }
 
 // "Standard "MissingArg error message"

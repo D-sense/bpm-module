@@ -35,6 +35,8 @@ func (h *Handler) StartBpmService(ctx context.Context, logger log.Entry, exclude
 		log.Fatal()
 	}
 
+	standardLogger.GetNotice(fmt.Sprintf("********* Starting New Process **********"))
+
 	for _, track := range tracks {
 		//obtain URLs
 		trackUrl, err := GetTrackUrl(*track.OriginalResource)
@@ -50,11 +52,12 @@ func (h *Handler) StartBpmService(ctx context.Context, logger log.Entry, exclude
 			failure++
 
 			standardLogger.GetError(fmt.Sprintf(" BPM extraction failed: ID: %v    |  Counter: %v   |  track_url: %v | Error: %v", track.ID, track.Counter, trackUrl, err))
-		}
+		}else if status {
+			tr, err := h.trackService.FindTrackByIdAndCounter(ctx, track)
 
-		if status {
 			//update track
-			err := h.UpdateTrackBPM(ctx, track, logger)
+			tr.BPM = bpmResult
+			err = h.UpdateTrackBPM(ctx, tr, logger)
 			if err != nil{
 				standardLogger.GetError(fmt.Sprintf("cannot update track row: ID: %v    |  Counter: %v   |    bpm: %v", track.ID, track.Counter, bpmResult))
 			}
@@ -63,8 +66,8 @@ func (h *Handler) StartBpmService(ctx context.Context, logger log.Entry, exclude
 			standardLogger.GetInfo(fmt.Sprintf(" BPM extraction passed: ID: %v    |  Counter: %v   |    bpm: %v", track.ID, track.Counter, bpmResult))
 		}
 	}
+	standardLogger.GetNotice(fmt.Sprintf("********* Ended The Process **********"))
 }
-
 
 func (h *Handler) Tracks(ctx context.Context, excluded []string, logger log.Entry) ([]*modules.Track, error) {
 	//logger.Info("get tracks")
@@ -79,20 +82,13 @@ func (h *Handler) Tracks(ctx context.Context, excluded []string, logger log.Entr
 
 func (h *Handler) UpdateTrackBPM(ctx context.Context, input *modules.Track, logger log.Entry) error {
 	//logger.Info("update track")
-
-	track, err := h.trackService.FindTrackByIdAndCounter(ctx, input)
-	if err != nil {
-		return errors.Wrap(err, "error getting a track:")
-	}
-
-	err = h.trackService.UpdateTrackBPM(ctx, track)
+	err := h.trackService.UpdateTrackBPM(ctx, input)
 	if err != nil {
 		return errors.Wrap(err, "error updating a track:")
 	}
 
 	return err
 }
-
 
 func GetTrackUrl(url modules.UrlResource) (string, error) {
 	u, err := url.Value()
