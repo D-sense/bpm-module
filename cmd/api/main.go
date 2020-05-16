@@ -35,7 +35,7 @@ func main(){
 	var logger log.Entry
 	excludeCounters := make([]string, 0)
 
-	gocron.Every(1).Hour().DoSafely(trackHandler.StartBpmService, initContext, logger, excludeCounters)
+	gocron.Every(1).Second().DoSafely(trackHandler.StartBpmService, initContext, logger, excludeCounters)
 
 	<- gocron.Start()
 }

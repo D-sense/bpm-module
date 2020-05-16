@@ -139,6 +139,7 @@ func clearDir(dir string) error {
 			_ = os.RemoveAll(path.Join([]string{folder, entry.Name()}...))
 		}
 	}
+
 	return nil
 }
 

@@ -46,12 +46,13 @@ func (h *Handler) StartBpmService(ctx context.Context, logger log.Entry, exclude
 		}
 
 		// get track's bpm
-		bpmResult, status, err := h.bpmEngine.ExtractBpm(string(trackUrl))
+		bpmResult, status, err := h.bpmEngine.ExtractBpm(trackUrl)
 		if err != nil && status == false {
 			excludeCounters = append(excludeCounters, track.ID)
 			failure++
 
 			standardLogger.GetError(fmt.Sprintf(" BPM extraction failed: ID: %v    |  Counter: %v   |  track_url: %v | Error: %v", track.ID, track.Counter, trackUrl, err))
+
 		}else if status {
 			tr, err := h.trackService.FindTrackByIdAndCounter(ctx, track)
 
