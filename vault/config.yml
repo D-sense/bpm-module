@@ -1,0 +1,13 @@
+url: "postgres://gbedu_root:e9LfPp5DDOrKwZM8tMtW@gbedu.cckuhzgegeba.us-west-2.rds.amazonaws.com:5432/core_staging?sslmode=disable"
+
+# server
+server:
+  host: "gbedu.cckuhzgegeba.us-west-2.rds.amazonaws.com"
+  port: "5432"
+
+# database Connection Data
+database:
+  app_name: "bpm-module"
+  username: "gbedu_root"
+  password: "e9LfPp5DDOrKwZM8tMtW"
+

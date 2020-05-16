@@ -1,5 +1,4 @@
 # Dev local specific config
-vault/config.yml
 
 # Folders
 cmd/api/home
